@@ -1,0 +1,6 @@
+---
+applications:
+- name: php-client
+  memory: 128M
+  path: .
+  buildpack: php_buildpack

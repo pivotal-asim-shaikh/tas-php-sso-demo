@@ -1,0 +1,6 @@
+---
+applications:
+- name: php-resource
+  memory: 128M
+  path: .
+  buildpack: php_buildpack
