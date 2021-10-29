@@ -19,17 +19,22 @@ EOD;
 //There's probably libraries that do jwt validation. This is just an example.
 if (isset($_SERVER["HTTP_AUTHORIZATION"]) && 0 === stripos($_SERVER["HTTP_AUTHORIZATION"], 'Bearer ')) {
     $jwtString = substr($_SERVER["HTTP_AUTHORIZATION"], 7);
-    $jwt = JWT::decode($jwtString, $publicKey, array('RS256'));
 
-    if (jwtIsValid($jwt)) {
-        header('Content-Type: application/json; charset=utf-8');        
-        $data = array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4, 'e' => 5);
-        echo json_encode($data);
-    }
-    else {
-        echo "Please refresh your token.";
-    }
+    try {
+        $jwt = JWT::decode($jwtString, $publicKey, array('RS256'));
 
+        if (jwtIsValid($jwt)) {
+            header('Content-Type: application/json; charset=utf-8');        
+            $data = array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4, 'e' => 5);
+            echo json_encode($data);
+        }
+        else {
+            echo "Please refresh your token.";
+        }
+    } 
+    catch (Exception $e) {
+        echo $e->getMessage();;
+    }    
 }
 else {
     echo "You are not authenticated.";
